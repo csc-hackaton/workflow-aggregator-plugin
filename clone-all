@@ -1,6 +1,6 @@
 #!/bin/sh
 
-username='jenkinsci'
+username='csc-hackaton'
 if [ -z "$1" ]; then
   echo "Using jenkinsci/* for clones";
 else
@@ -8,6 +8,11 @@ else
   username=$1
 fi
 
-for p in $(cat demo/plugins.txt | perl -pe s/:.+//g | grep -E 'workflow-|pipeline-' | grep -v 'pipeline-rest-api' | grep -v 'workflow-aggregator'); do
-  git clone git@github.com:$username/$p-plugin.git ../$p-plugin
+#for p in $(cat demo/plugins.txt | cut -d ":" -f 2 | grep -E 'workflow-|pipeline-' | grep -v 'pipeline-rest-api' | grep -v 'workflow-aggregator'); do
+#  git clone git@github.com:$username/$p-plugin.git ../$p-plugin
+#done
+
+
+for p in $(cat pom.xml | grep artifactId | grep -E "workflow-|pipeline-"| grep -v 'pipeline-rest-api' | grep -v 'workflow-aggregator' | cut -d ">" -f2 | cut -d"<" -f 1);do
+	echo "git clone git@github.com:$username/$p-plugin.git ../$p-plugin"
 done
